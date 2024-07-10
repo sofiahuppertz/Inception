@@ -4,16 +4,6 @@ services:
       context: ./requirements/MariaDB
     env_file: .env
     restart: always
-    volumes:
-      - mariadb_data:  /home/shuppert/data
-
-  wordpress:
-    build: 
-      context: ./requirements/WordPress
-    env_file: .env
-    restart: always
-    volumes:
-      - wordpress:  /home/shuppert/data
   
   nginx:
     build:

@@ -1,18 +1,25 @@
 FROM debian:bullseye
 
-# Install MariaDB
-RUN apt update && apt install -y \
-  tini \
-  mariadb-server 
+# Set environment variables
+ENV MYSQL_USER=shuppert \
+  MYSQL_PASSWORD=1234 \
+  MYSQL_DB=wordpress \
+  MYSQL_ROOT_PASSWORD=root_1234
 
-RUN mkdir -p /etc/mysql
-COPY conf/my.cnf /etc/my.cnf
+# Install MariaDB server
+RUN apt update && apt install -y mariadb-server
 
-COPY tools/mariadb-setup.sh /mariadb-setup.sh
-RUN chmod +x /mariadb-setup.sh
+# Expose port 3306
+EXPOSE 3306
 
-# Start tini to remove zombie processes
-ENTRYPOINT ["/usr/bin/tini", "--"]
+# Copy configuration files and scripts
+COPY /conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY /tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-CMD ["./mariadb-setup.sh"]
+# Set permissions
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Use the custom script as the entrypoint
+ENTRYPOINT ["entrypoint.sh"]
+
 
