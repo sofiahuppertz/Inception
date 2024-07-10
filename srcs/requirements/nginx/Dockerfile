@@ -1,18 +1,24 @@
 # ALPINE PENULTIMATE STABLE VERSION IMAGE
-FROM alpine:3.19
+FROM debian:bullseye
 
-# UPDATE; INSTALL NGINX;
-RUN apk update && apk add nginx && apk add vim && apk add openssl
+# After the FROM directive and before the first RUN that needs the nginx user
+RUN addgroup --system nginx && adduser --system --no-create-home --ingroup nginx nginx
+
+# INSTALL NGINX AND OPENSSL
+RUN apt update && apt install -y \
+  nginx \  
+  openssl  
+
+# The rest of your Dockerfile follows
+RUN mkdir -p /etc/nginx/ssl
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/nginx/ssl/shuppert.42.fr.key \
+  -out /etc/nginx/ssl/shuppert.42.fr.crt \
+  -subj "/C=FR/ST=Paris/L=Paris/O=42/CN=shuppert.42.fr"
 
 # COPY NGINX CONFIGURATION FILE
 RUN mkdir -p /etc/nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf
-
-# CREATE FOLDER FOR SSL CERTIFICATES
-RUN mkdir -p /etc/nginx/ssl
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
--keyout /etc/nginx/ssl/shuppert.42.fr.key -out /etc/nginx/ssl/shuppert.42.fr.crt \
--subj "/C=FR/ST=Paris/L=Paris/O=42/CN=shuppert.42.fr"
 
 # CREATE FOLDER FOR WEBSITE
 RUN mkdir -p home/www/html/
