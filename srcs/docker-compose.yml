@@ -1,12 +1,51 @@
-services:
-  mariadb:
-    build:
-      context: ./requirements/MariaDB
-    env_file: .env
-    restart: always
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  wp:
   
+  db:
+
+services:
   nginx:
+    container_name: nginx
     build:
-      context: ./requirements/Nginx
+      context: ./requirements/nginx
     env_file: .env
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - my-network
+    volumes:
+      - wp:/var/www/html
+    depends_on:
+      - wordpress
     restart: always
+    
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/WordPress
+    env_file: .env
+    networks:
+      - my-network
+    volumes:
+      - wp:/var/www/html
+    depends_on:
+      - mariadb
+    restart: always
+
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/MariaDB  
+    env_file: .env
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - my-network
+    restart: always
+

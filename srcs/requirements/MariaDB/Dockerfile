@@ -1,11 +1,5 @@
 FROM debian:bullseye
 
-# Set environment variables
-ENV MYSQL_USER=shuppert \
-  MYSQL_PASSWORD=1234 \
-  MYSQL_DB=wordpress \
-  MYSQL_ROOT_PASSWORD=root_1234
-
 # Install MariaDB server
 RUN apt update && apt install -y mariadb-server
 
@@ -14,12 +8,17 @@ EXPOSE 3306
 
 # Copy configuration files and scripts
 COPY /conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY /tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY /tools/db-setup.sql /tmp/db-setup.sql
 
-# Set permissions
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN sed -i -e "s/\${MYSQL_DB}/$MYSQL_DB/g" \
+  -e "s/\${MYSQL_USER}/$MYSQL_USER/g" \
+  -e "s/\${MYSQL_PASSWORD}/$MYSQL_PASSWORD/g" \
+  -e "s/\${MYSQL_ROOT_PASSWORD}/$MYSQL_ROOT_PASSWORD/g" \
+  /tmp/db-setup.sql
 
-# Use the custom script as the entrypoint
-ENTRYPOINT ["entrypoint.sh"]
+RUN service mariadb start && mysql < /tmp/db-setup.sql;
+
+ENTRYPOINT ["mysqld"]
+
 
 

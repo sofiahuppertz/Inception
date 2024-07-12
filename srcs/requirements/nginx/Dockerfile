@@ -18,14 +18,10 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 # COPY NGINX CONFIGURATION FILE
 RUN mkdir -p /etc/nginx
-COPY conf/nginx.conf /etc/nginx/nginx.conf
-
-# CREATE FOLDER FOR WEBSITE
-RUN mkdir -p home/www/html/
-ADD tools/index.html /home/www/html
+COPY conf/* /etc/nginx/.
 
 # MAKE PORT 80 PUBLIC TO HOST
 EXPOSE 80 443
 
 # START NGINX
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
