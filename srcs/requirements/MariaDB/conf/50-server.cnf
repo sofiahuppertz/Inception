@@ -1,7 +1,6 @@
 [server]
 
 [mysqld]
-
 user                    = mysql
 pid-file                = /run/mysqld/mysqld.pid
 socket                  = /run/mysqld/mysqld.sock
