@@ -6,7 +6,7 @@ all: help
 # Check if .env file exists
 check-env:
 	@if [ ! -f $(ENV_FILE) ]; then \
-		echo "$(RED)$(REVERSED) Error: .env file not found in ./srcs directory. $(RESET)"; \
+		printf "$(RED)$(REVERSED) Error: .env file not found in ./srcs directory. $(RESET)\n"; \
 		exit 1; \
 	fi
 
@@ -43,16 +43,16 @@ prune: clean
 
 # Help command to list all targets
 help:
-	@echo "$(GREEN) $(REVERSED) Available commands: $(RESET)"
-	@echo "  $(ITAL)$(BOLD)make build$(RESET)    $(YELLOW)- Build the Docker images.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make up$(RESET)       $(YELLOW)- Build and start the Docker containers.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make down$(RESET)     $(YELLOW)- Stop the running Docker containers.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make restart$(RESET)  $(YELLOW)- Restart the Docker containers.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make logs$(RESET)     $(YELLOW)- Follow the logs of the running Docker containers.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make ps$(RESET)       $(YELLOW)- List the status of the Docker containers.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make clean$(RESET)    $(YELLOW)- Stop and remove the Docker containers and their volumes.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make prune$(RESET)    $(YELLOW)- Remove all stopped containers, unused networks, dangling images, and unused volumes.$(RESET)"
-	@echo "  $(ITAL)$(BOLD)make help$(RESET)     $(YELLOW)- Show this help message.$(RESET)"
+	@printf "$(GREEN)$(REVERSED) Available commands: $(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make build$(RESET)    $(YELLOW)- Build the Docker images.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make up$(RESET)       $(YELLOW)- Build and start the Docker containers.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make down$(RESET)     $(YELLOW)- Stop the running Docker containers.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make restart$(RESET)  $(YELLOW)- Restart the Docker containers.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make logs$(RESET)     $(YELLOW)- Follow the logs of the running Docker containers.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make ps$(RESET)       $(YELLOW)- List the status of the Docker containers.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make clean$(RESET)    $(YELLOW)- Stop and remove the Docker containers and their volumes.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make prune$(RESET)    $(YELLOW)- Remove all stopped containers, unused networks, dangling images, and unused volumes.$(RESET)\n"
+	@printf "  $(ITALIC)$(BOLD)make help$(RESET)     $(YELLOW)- Show this help message.$(RESET)\n"
 
 .PHONY: all check-env build up down restart logs ps clean prune help
 
