@@ -48,3 +48,15 @@ services:
       - my-network
     restart: always
 
+  adminer:
+    container_name: adminer
+    build: 
+      context: ./requirements/bonus/Adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    depends_on:
+      - mariadb
+    restart: on-failure
+
