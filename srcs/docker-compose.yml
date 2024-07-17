@@ -4,19 +4,7 @@ networks:
 
 volumes:
   wp:
-    driver: local
-    name: wp
-    driver_opts:
-      type: none
-      device: /home/shuppert/data/wp
-      o: bind
   db:
-    driver: local
-    name: db
-    driver_opts:
-      type: none
-      device: /home/shuppert/data/db
-      o: bind
 
 services:
   nginx:
