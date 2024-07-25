@@ -8,14 +8,14 @@ volumes:
     name: wp
     driver_opts:
       type: none
-      device: /home/shuppert/data/wp
+      device: /home/Moby-Dick/data/wp
       o: bind
   db:
     driver: local
     name: db
     driver_opts:
       type: none
-      device: /home/shuppert/data/db
+      device: /home/Moby-Dick/data/db
       o: bind
 
 services:
