@@ -46,6 +46,8 @@ services:
       - wp:/var/www/html
     depends_on:
       - mariadb
+    expose:
+      - "9000"
     restart: always
 
 
@@ -58,6 +60,8 @@ services:
       - db:/var/lib/mysql
     networks:
       - my-network
+    expose:
+        - "3306"
     restart: always
 
   adminer:
@@ -72,3 +76,17 @@ services:
       - mariadb
     restart: on-failure
 
+  cadvisor:
+    container_name: cadvisor
+    build: ./requirements/bonus/cadvisor
+    image: cadvisor
+    ports:
+       - "8000:8080"
+    networks:
+     - my-network
+    volumes:
+      - /:/rootfs
+      - /var/run:/var/run
+      - /sys:/sys
+      - /var/lib/docker/:/var/lib/docker
+    restart: always
