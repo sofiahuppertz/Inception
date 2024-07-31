@@ -12,9 +12,9 @@ RUN apt update && apt install -y \
 # The rest of your Dockerfile follows
 RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/nginx/ssl/shuppert.42.fr.key \
-  -out /etc/nginx/ssl/shuppert.42.fr.crt \
-  -subj "/C=FR/ST=Paris/L=Paris/O=42/CN=shuppert.42.fr"
+  -keyout /etc/nginx/ssl/svolodin.42.fr.key \
+  -out /etc/nginx/ssl/svolodin.42.fr.crt \
+  -subj "/C=FR/ST=Paris/L=Paris/O=42/CN=svolodin.42.fr"
 
 # COPY NGINX CONFIGURATION FILE
 RUN mkdir -p /etc/nginx

@@ -4,7 +4,19 @@ networks:
 
 volumes:
   wp:
+    driver: local
+    name: wp
+    driver_opts:
+      type: none
+      device: /home/svolodin/data/wp
+      o: bind
   db:
+    driver: local
+    name: db
+    driver_opts:
+      type: none
+      device: /home/svolodin/data/db
+      o: bind
 
 services:
   nginx:
